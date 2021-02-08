@@ -1,0 +1,43 @@
+version: "3.9"
+services:
+  jenkins:
+    image: jenkins/jenkins
+    privileged: true
+    user: root
+    container_name: jenkins
+    volumes:
+      - ~/jenkins:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/local/bin/docker:/usr/local/bin/docker
+    ports:
+      - 8080:8080
+      - 50000:50000
+  sonarqube:
+    image: sonarqube:7.9-community
+    container_name: sonarqube
+    volumes:
+      - sonarqube_conf:/opt/sonarqube/conf
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_logs:/opt/sonarqube/logs
+      - sonarqube_extensions:/opt/sonarqube/extensions
+    ports:
+      - 9000:9000
+    environment:
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+  mariaDB:
+    image: mariadb
+    container_name: mariaDB
+    ports:
+      - 3406:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_USER=hibernate_orm_test
+      - MYSQL_PASSWORD=hibernate_orm_test
+      - MYSQL_DATABASE=hibernate_orm_test
+    tmpfs:
+      /var/lib/mysql:rw
+volumes:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:
+  sonarqube_conf:
