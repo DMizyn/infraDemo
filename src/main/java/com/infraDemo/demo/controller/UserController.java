@@ -18,4 +18,13 @@ public class UserController {
     public User createUser(@RequestBody User user){
         return service.saveOne(user);
     }
+
+    public String deleteById(long id){
+        try {
+            service.deleteUserById(id);
+            return "OK";
+        }catch (Exception e){
+            return e.getMessage();
+        }
+    }
 }
