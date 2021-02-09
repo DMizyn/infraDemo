@@ -24,18 +24,6 @@ services:
       - 9000:9000
     environment:
       - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
-  mariaDB:
-    image: mariadb
-    container_name: mariaDB
-    ports:
-      - 3406:3306
-    environment:
-      - MYSQL_ROOT_PASSWORD=admin
-      - MYSQL_USER=hibernate_orm_test
-      - MYSQL_PASSWORD=hibernate_orm_test
-      - MYSQL_DATABASE=hibernate_orm_test
-    tmpfs:
-      /var/lib/mysql:rw
 volumes:
   sonarqube_data:
   sonarqube_extensions:
