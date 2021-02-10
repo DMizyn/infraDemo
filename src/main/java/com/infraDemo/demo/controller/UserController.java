@@ -4,6 +4,7 @@ import com.infraDemo.demo.entity.User;
 import com.infraDemo.demo.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,11 @@ public class UserController {
     @PostMapping(path = "/user")
     public User createUser(@RequestBody User user){
         return service.saveOne(user);
+    }
+
+    @GetMapping(path = "/serviceInfo")
+    public String getServiceInfo(){
+        return service.getClass().getName();
     }
 
     public String deleteById(long id){

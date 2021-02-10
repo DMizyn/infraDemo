@@ -24,6 +24,31 @@ services:
       - 9000:9000
     environment:
       - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+  demo:
+    image: demo
+    container_name: demoApp
+    environment:
+      - SERVICE_USER=B
+    ports:
+      - 8090:8080
+    depends_on:
+      mariadb:
+        condition: service_healthy
+  mariadb:
+    image: mariadb
+    container_name: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=demo
+      - MYSQL_USER=demo
+      - MYSQL_PASSWORD=demo
+    ports:
+      - 3306:3306
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
 volumes:
   sonarqube_data:
   sonarqube_extensions:
